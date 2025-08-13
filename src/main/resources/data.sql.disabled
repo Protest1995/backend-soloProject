@@ -1,0 +1,25 @@
+-- 插入用戶數據（使用 ON CONFLICT DO NOTHING 避免重複插入）
+INSERT INTO users (id, username, email, password, avatar_url, role, gender, birthday, address, phone, created_at, updated_at) VALUES
+('1', 'admin', 'admin@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'https://via.placeholder.com/150', 'SUPER_USER', 'MALE', '1990-01-01', 'Taipei, Taiwan', '+886-912-345-678', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('2', 'user1', 'user1@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'https://via.placeholder.com/150', 'USER', 'FEMALE', '1995-05-15', 'Kaohsiung, Taiwan', '+886-987-654-321', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('3', 'user2', 'user2@example.com', '$2a$10$N.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVEFDa', 'https://via.placeholder.com/150', 'USER', 'MALE', '1988-12-20', 'Taichung, Taiwan', '+886-933-111-222', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+ON CONFLICT (username) DO NOTHING;
+
+-- 插入部落格文章數據（使用 ON CONFLICT DO NOTHING 避免重複插入）
+INSERT INTO blog_posts (id, image_url, is_locked, created_at, category_key, likes, comments_count, views, is_featured, title, title_zh, excerpt, excerpt_zh, content, content_zh, date, created_at_ts) VALUES
+('post-1', 'https://via.placeholder.com/800x400', false, 1640995200000, 'tech', 15, 3, 120, true, 'Getting Started with Spring Boot', 'Spring Boot 入門指南', 'Learn the basics of Spring Boot development', '學習 Spring Boot 開發基礎', 'This is a comprehensive guide to getting started with Spring Boot...', '這是一個全面的 Spring Boot 入門指南...', '2022-01-01 10:00:00', CURRENT_TIMESTAMP),
+('post-2', 'https://via.placeholder.com/800x400', false, 1641081600000, 'design', 8, 2, 85, false, 'UI/UX Design Principles', 'UI/UX 設計原則', 'Essential principles for better user experience', '更好的用戶體驗的基本原則', 'Good design is not just about aesthetics...', '好的設計不僅僅是關於美學...', '2022-01-02 14:30:00', CURRENT_TIMESTAMP),
+('post-3', 'https://via.placeholder.com/800x400', false, 1641168000000, 'travel', 12, 1, 95, true, 'Exploring Taiwan', '探索台灣', 'Discover the beauty of Taiwan', '發現台灣之美', 'Taiwan is a beautiful island with diverse landscapes...', '台灣是一個美麗的島嶼，擁有豐富多樣的地貌...', '2022-01-03 09:15:00', CURRENT_TIMESTAMP)
+ON CONFLICT (id) DO NOTHING;
+
+-- 插入留言數據（使用 ON CONFLICT DO NOTHING 避免重複插入）
+INSERT INTO comments (id, post_id, user_id, username, avatar_url, text, parent_id, created_at, updated_at) VALUES
+('comment-1', 'post-1', '2', 'user1', 'https://via.placeholder.com/150', '這篇文章寫得很好，對我幫助很大！', NULL, '2022-01-01 11:00:00', '2022-01-01 11:00:00'),
+('comment-2', 'post-1', '3', 'user2', 'https://via.placeholder.com/150', '謝謝分享，請問有更多相關的資源嗎？', NULL, '2022-01-01 12:30:00', '2022-01-01 12:30:00'),
+('comment-3', 'post-1', '1', 'admin', 'https://via.placeholder.com/150', '謝謝支持！我會繼續分享更多內容。', 'comment-2', '2022-01-01 13:00:00', '2022-01-01 13:00:00'),
+('comment-4', 'post-2', '2', 'user1', 'https://via.placeholder.com/150', '設計原則講得很清楚，學到很多！', NULL, '2022-01-02 15:00:00', '2022-01-02 15:00:00'),
+('comment-5', 'post-2', '3', 'user2', 'https://via.placeholder.com/150', '同意樓上的觀點，這篇文章很有價值。', 'comment-4', '2022-01-02 16:00:00', '2022-01-02 16:00:00'),
+('comment-6', 'post-3', '1', 'admin', 'https://via.placeholder.com/150', '台灣確實很美，希望大家都能來體驗！', NULL, '2022-01-03 10:00:00', '2022-01-03 10:00:00')
+ON CONFLICT (id) DO NOTHING;
+
+
